@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="Opdr_Fase_2">
+
+	<executable package_path="ariac_flexbe_behaviors.opdr_fase_2_sm" class="Opdr_Fase_2SM" />
+	<tagstring>ariac, example</tagstring>
+	<author>Niels van Dongen, Bas Jochems</author>
+	<date>May 11 2020</date>
+	<description>
+		Uitgewerkte opdracht fase 2
+	</description>
+
+
+	<!-- Contained Behaviors -->
+	<contains name="notify_shipment_ready" />
+
+	<!-- Available Parameters -->
+
+</behavior>

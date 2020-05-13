@@ -17,7 +17,7 @@ from ariac_flexbe_states.message_state import MessageState
 
 '''
 Created on Wed Apr 22 2020
-@author: Gerard Harkema
+@author: Bas Jochems, Niels van Dongen
 '''
 class transport_part_form_bin_to_agv_stateSM(Behavior):
 	'''

@@ -5,39 +5,39 @@ sensors:
     pose:
       xyz: [1.6, 0.75, 0.91]
       rpy: [0, 0, 'pi']
-  logical_camera_1:
+  band_logic_camera:
     type: logical_camera
     pose:
       xyz: [1.21, 0.9, 1.6]
       rpy: [0, 'pi/2', 0]
 
 # bins
-  logical_camera_2:
+  bin1_camera:
     type: logical_camera
     pose:
       xyz: [-0.3, 1.916, 1.6]
       rpy: [0, 'pi/2', 0]
-  logical_camera_3:
+  bin2_camera:
     type: logical_camera
     pose:
       xyz: [-0.3, 1.15, 1.6]
       rpy: [0, 'pi/2', 0]
-  logical_camera_4:
+  bin3_camera:
     type: logical_camera
     pose:
       xyz: [-0.3, 0.383, 1.6]
       rpy: [0, 'pi/2', 0]
-  logical_camera_5:
+  bin4_camera:
     type: logical_camera
     pose:
       xyz: [-0.3, -0.383, 1.6]
       rpy: [0, 'pi/2', 0]
-  logical_camera_6:
+  bin5_camera:
     type: logical_camera
     pose:
       xyz: [-0.3, -1.15, 1.6]
       rpy: [0, 'pi/2', 0]
-  logical_camera_7:
+  bin6_camera:
     type: logical_camera
     pose:
       xyz: [-0.3, -1.916, 1.6]

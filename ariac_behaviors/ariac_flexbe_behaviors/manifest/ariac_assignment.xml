@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="ariac_assignment">
+
+	<executable package_path="ariac_flexbe_behaviors.ariac_assignment_sm" class="ariac_assignmentSM" />
+	<tagstring>ariac</tagstring>
+	<author>Bas Jochems, Niels van Dongen</author>
+	<date>Thu Apr 16 2020</date>
+	<description>
+		assignment
+	</description>
+
+
+	<!-- Contained Behaviors -->
+	<contains name="notify_shipment_ready" />
+
+	<!-- Available Parameters -->
+
+</behavior>

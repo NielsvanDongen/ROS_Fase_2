@@ -78,7 +78,7 @@ class transport_part_form_bin_to_part_state_1SM(Behavior):
 		_state_machine.userdata.conveyor_belt_power = 100.0
 		_state_machine.userdata.arm_id = 'arm1'
 		_state_machine.userdata.part_offset_place = 0.065
-		_state_machine.userdata.camera_frame_bin4 = '/ariac/bin4_camera'
+		_state_machine.userdata.camera_bin4_frame = '/ariac/bin4_camera'
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]

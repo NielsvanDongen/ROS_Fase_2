@@ -28,15 +28,15 @@ from ariac_flexbe_states.detect_part_camera_ariac_state import DetectPartCameraA
 Created on Wed Apr 22 2020
 @author: Bas Jochems, Niels van Dongen
 '''
-class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
+class transport_piston_rod_form_bin_to_agv_state_1SM(Behavior):
 	'''
 	transports part from it's bin to the selected agv
 	'''
 
 
 	def __init__(self):
-		super(transport_gasket_form_bin_to_agv_state_1SM, self).__init__()
-		self.name = 'transport_gasket_form_bin_to_agv_state_1'
+		super(transport_piston_rod_form_bin_to_agv_state_1SM, self).__init__()
+		self.name = 'transport_piston_rod_form_bin_to_agv_state_1'
 
 		# parameters of this behavior
 
@@ -61,24 +61,24 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 		_state_machine.userdata.part_pose = []
 		_state_machine.userdata.joint_values = []
 		_state_machine.userdata.joint_names = []
-		_state_machine.userdata.part = 'gasket_part'
+		_state_machine.userdata.part = 'piston_rod_part'
 		_state_machine.userdata.offset = 0.1
 		_state_machine.userdata.move_group = 'manipulator'
-		_state_machine.userdata.move_group_prefix = '/ariac/arm1'
+		_state_machine.userdata.move_group_prefix = '/ariac/arm2'
 		_state_machine.userdata.config_name_home = 'home'
 		_state_machine.userdata.action_topic = '/move_group'
 		_state_machine.userdata.robot_name = ''
-		_state_machine.userdata.config_name_bin1PreGrasp = 'bin1PreGrasp'
-		_state_machine.userdata.config_name_tray2PreDrop = 'tray2PreDrop'
-		_state_machine.userdata.ref_frame = 'arm1_linear_arm_actuator'
-		_state_machine.userdata.camera_topic = '/ariac/bin1_camera'
-		_state_machine.userdata.camera_frame = 'bin1_camera_frame'
+		_state_machine.userdata.config_name_bin5PreGrasp = 'bin5PreGrasp'
+		_state_machine.userdata.config_name_tray1PreDrop = 'tray1PreDrop'
+		_state_machine.userdata.ref_frame = 'arm2_linear_arm_actuator'
+		_state_machine.userdata.camera_topic = '/ariac/bin5_camera'
+		_state_machine.userdata.camera_frame = 'bin5_camera_frame'
 		_state_machine.userdata.tool_link = 'ee_link'
 		_state_machine.userdata.agv_pose = []
 		_state_machine.userdata.part_offset_pick = 0.035
 		_state_machine.userdata.part_rotation = 0
 		_state_machine.userdata.conveyor_belt_power = 100.0
-		_state_machine.userdata.arm_id = 'arm1'
+		_state_machine.userdata.arm_id = 'arm2'
 		_state_machine.userdata.part_offset_place = 0.065
 
 		# Additional creation code can be added inside the following tags
@@ -98,7 +98,7 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 			# x:743 y:37
 			OperatableStateMachine.add('MoseMessage',
 										MessageState(),
-										transitions={'continue': 'MoveR1PreGrasp2'},
+										transitions={'continue': 'MoveR2PreGrasp2'},
 										autonomy={'continue': Autonomy.Off},
 										remapping={'message': 'pose_on_agv'})
 
@@ -111,7 +111,7 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 
 			# x:684 y:548
 			OperatableStateMachine.add('GetAgvPose',
-										GetObjectPoseState(object_frame='kit_tray_1', ref_frame='arm1_linear_arm_actuator'),
+										GetObjectPoseState(object_frame='kit_tray_2', ref_frame='arm1_linear_arm_actuator'),
 										transitions={'continue': 'ComputeDrop', 'failed': 'ComputeDrop'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'pose': 'agv_pose'})
@@ -119,37 +119,37 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 			# x:1241 y:210
 			OperatableStateMachine.add('WaitRetry4',
 										WaitState(wait_time=5),
-										transitions={'done': 'MoveR1PreGrasp2'},
+										transitions={'done': 'MoveR2PreGrasp2'},
 										autonomy={'done': Autonomy.Off})
 
 			# x:681 y:654
 			OperatableStateMachine.add('WaitRetry6',
 										WaitState(wait_time=5),
-										transitions={'done': 'MoveR1PreDrop'},
+										transitions={'done': 'MoveR2PreDrop'},
 										autonomy={'done': Autonomy.Off})
 
 			# x:16 y:320
 			OperatableStateMachine.add('DeliverShipment',
 										self.use_behavior(notify_shipment_readySM, 'DeliverShipment'),
-										transitions={'finished': 'EndAssignment', 'failed': 'MoveR1PreDrop_2'},
+										transitions={'finished': 'EndAssignment', 'failed': 'MoveR2PreDrop_2'},
 										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit})
 
 			# x:925 y:91
-			OperatableStateMachine.add('MoveR1PreGrasp2',
+			OperatableStateMachine.add('MoveR2PreGrasp2',
 										SrdfStateToMoveitAriac(),
 										transitions={'reached': 'CheckPartsPoseBin', 'planning_failed': 'WaitRetry4', 'control_failed': 'WaitRetry4', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
-										remapping={'config_name': 'config_name_bin1PreGrasp', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+										remapping={'config_name': 'config_name_bin5PreGrasp', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:891 y:607
-			OperatableStateMachine.add('MoveR1PreDrop',
+			OperatableStateMachine.add('MoveR2PreDrop',
 										SrdfStateToMoveitAriac(),
 										transitions={'reached': 'GetAgvPose', 'planning_failed': 'WaitRetry6', 'control_failed': 'WaitRetry6', 'param_error': 'ComputeDrop'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
-										remapping={'config_name': 'config_name_tray2PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+										remapping={'config_name': 'config_name_tray1PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:462 y:551
-			OperatableStateMachine.add('MoveR1ToDrop',
+			OperatableStateMachine.add('MoveR2ToDrop',
 										MoveitToJointsDynAriacState(),
 										transitions={'reached': 'GripperDisable', 'planning_failed': 'WaitRetry6', 'control_failed': 'WaitRetry6'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
@@ -158,7 +158,7 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 			# x:672 y:460
 			OperatableStateMachine.add('ComputeDrop',
 										ComputeGraspAriacState(joint_names=['linear_arm_actuator_joint', 'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']),
-										transitions={'continue': 'MoveR1ToDrop', 'failed': 'MoveR1ToDrop'},
+										transitions={'continue': 'MoveR2ToDrop', 'failed': 'MoveR2ToDrop'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'agv_pose', 'offset': 'part_offset_place', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
@@ -169,16 +169,16 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 										autonomy={'continue': Autonomy.Off})
 
 			# x:13 y:449
-			OperatableStateMachine.add('MoveR1PreDrop_2',
+			OperatableStateMachine.add('MoveR2PreDrop_2',
 										SrdfStateToMoveitAriac(),
 										transitions={'reached': 'DeliverShipment', 'planning_failed': 'DeliverShipment', 'control_failed': 'DeliverShipment', 'param_error': 'DeliverShipment'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
-										remapping={'config_name': 'config_name_tray2PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+										remapping={'config_name': 'config_name_tray1PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:913 y:417
 			OperatableStateMachine.add('GripperEnable',
 										VacuumGripperControlState(enable=True),
-										transitions={'continue': 'MoveR1PreGrasp2_2', 'failed': 'WaitRetry5', 'invalid_arm_id': 'failed'},
+										transitions={'continue': 'MoveR2PreGrasp2_2', 'failed': 'WaitRetry5', 'invalid_arm_id': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'invalid_arm_id': Autonomy.Off},
 										remapping={'arm_id': 'arm_id'})
 
@@ -197,7 +197,7 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 			# x:226 y:507
 			OperatableStateMachine.add('GripperDisable',
 										VacuumGripperControlState(enable=False),
-										transitions={'continue': 'MoveR1PreDrop_2', 'failed': 'WaitRetry8', 'invalid_arm_id': 'failed'},
+										transitions={'continue': 'MoveR2PreDrop_2', 'failed': 'WaitRetry8', 'invalid_arm_id': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'invalid_arm_id': Autonomy.Off},
 										remapping={'arm_id': 'arm_id'})
 
@@ -225,15 +225,15 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 			# x:1154 y:509
 			OperatableStateMachine.add('WaitRetry4_2',
 										WaitState(wait_time=5),
-										transitions={'done': 'MoveR1PreGrasp2_2'},
+										transitions={'done': 'MoveR2PreGrasp2_2'},
 										autonomy={'done': Autonomy.Off})
 
 			# x:926 y:496
-			OperatableStateMachine.add('MoveR1PreGrasp2_2',
+			OperatableStateMachine.add('MoveR2PreGrasp2_2',
 										SrdfStateToMoveitAriac(),
-										transitions={'reached': 'MoveR1PreDrop', 'planning_failed': 'WaitRetry4_2', 'control_failed': 'WaitRetry4_2', 'param_error': 'failed'},
+										transitions={'reached': 'MoveR2PreDrop', 'planning_failed': 'WaitRetry4_2', 'control_failed': 'WaitRetry4_2', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
-										remapping={'config_name': 'config_name_bin1PreGrasp', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+										remapping={'config_name': 'config_name_bin5PreGrasp', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 
 		return _state_machine

@@ -34,7 +34,7 @@ class VacuumGripperControlState(EventState):
 		if userdata.arm_id == 'arm1':
 			gripper_service = '/ariac/arm1/gripper/control'
 		else:
-			if userdate.arm_id == 'arm2':
+			if userdata.arm_id == 'arm2':
 				gripper_service = '/ariac/arm2/gripper/control'
 			else:
 				return 'invalid_arm_id'

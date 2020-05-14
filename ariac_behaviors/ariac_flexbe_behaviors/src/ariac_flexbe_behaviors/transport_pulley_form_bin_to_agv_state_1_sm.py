@@ -75,11 +75,11 @@ class transport_pulley_form_bin_to_agv_state_1SM(Behavior):
 		_state_machine.userdata.camera_frame = 'bin2_camera_frame'
 		_state_machine.userdata.tool_link = 'ee_link'
 		_state_machine.userdata.agv_pose = []
-		_state_machine.userdata.part_offset_pick = 0.082
+		_state_machine.userdata.part_offset_pick = 0.081
 		_state_machine.userdata.part_rotation = 0
 		_state_machine.userdata.conveyor_belt_power = 100.0
 		_state_machine.userdata.arm_id = 'arm1'
-		_state_machine.userdata.part_offset_place = 0.112
+		_state_machine.userdata.part_offset_place = 0.111
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]

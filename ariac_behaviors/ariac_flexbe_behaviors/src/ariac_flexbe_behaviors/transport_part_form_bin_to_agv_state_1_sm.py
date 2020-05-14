@@ -53,7 +53,7 @@ class transport_part_form_bin_to_agv_state_1SM(Behavior):
 
 
 	def create(self):
-		# x:71 y:147, x:609 y:234
+		# x:71 y:147, x:663 y:241
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'], input_keys=['part_type', 'agv_id', 'pose_on_agv'])
 		_state_machine.userdata.part_type = ''
 		_state_machine.userdata.agv_id = ''
@@ -109,26 +109,20 @@ class transport_part_form_bin_to_agv_state_1SM(Behavior):
 										autonomy={'continue': Autonomy.Off},
 										remapping={'message': 'part_type'})
 
-			# x:685 y:628
+			# x:689 y:552
 			OperatableStateMachine.add('GetAgvPose',
 										GetObjectPoseState(object_frame='kit_tray_1', ref_frame='arm1_linear_arm_actuator'),
 										transitions={'continue': 'ComputeDrop', 'failed': 'ComputeDrop'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'pose': 'agv_pose'})
 
-			# x:1142 y:93
+			# x:1187 y:244
 			OperatableStateMachine.add('WaitRetry4',
 										WaitState(wait_time=5),
 										transitions={'done': 'MoveR1PreGrasp2'},
 										autonomy={'done': Autonomy.Off})
 
-			# x:515 y:637
-			OperatableStateMachine.add('WaitRetry7',
-										WaitState(wait_time=5),
-										transitions={'done': 'MoveR1ToDrop'},
-										autonomy={'done': Autonomy.Off})
-
-			# x:1090 y:652
+			# x:705 y:653
 			OperatableStateMachine.add('WaitRetry6',
 										WaitState(wait_time=5),
 										transitions={'done': 'MoveR1PreDrop'},
@@ -154,14 +148,14 @@ class transport_part_form_bin_to_agv_state_1SM(Behavior):
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_tray2PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
-			# x:473 y:516
+			# x:440 y:550
 			OperatableStateMachine.add('MoveR1ToDrop',
 										MoveitToJointsDynAriacState(),
-										transitions={'reached': 'GripperDisable', 'planning_failed': 'WaitRetry7', 'control_failed': 'WaitRetry7'},
+										transitions={'reached': 'GripperDisable', 'planning_failed': 'WaitRetry6', 'control_failed': 'WaitRetry6'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
 										remapping={'move_group_prefix': 'move_group_prefix', 'move_group': 'move_group', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
-			# x:683 y:522
+			# x:677 y:456
 			OperatableStateMachine.add('ComputeDrop',
 										ComputeGraspAriacState(joint_names=['linear_arm_actuator_joint', 'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']),
 										transitions={'continue': 'MoveR1ToDrop', 'failed': 'MoveR1ToDrop'},
@@ -224,15 +218,9 @@ class transport_part_form_bin_to_agv_state_1SM(Behavior):
 			# x:910 y:341
 			OperatableStateMachine.add('MoveR1ToPick',
 										MoveitToJointsDynAriacState(),
-										transitions={'reached': 'GripperEnable', 'planning_failed': 'WaitRetry4_2_2', 'control_failed': 'WaitRetry4_2_2'},
+										transitions={'reached': 'GripperEnable', 'planning_failed': 'WaitRetry4', 'control_failed': 'WaitRetry4'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
 										remapping={'move_group_prefix': 'move_group_prefix', 'move_group': 'move_group', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
-
-			# x:1169 y:346
-			OperatableStateMachine.add('WaitRetry4_2_2',
-										WaitState(wait_time=5),
-										transitions={'done': 'MoveR1ToPick'},
-										autonomy={'done': Autonomy.Off})
 
 			# x:1139 y:510
 			OperatableStateMachine.add('WaitRetry4_2',

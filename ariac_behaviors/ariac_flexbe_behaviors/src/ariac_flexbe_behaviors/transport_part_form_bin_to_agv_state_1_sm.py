@@ -75,10 +75,11 @@ class transport_part_form_bin_to_agv_state_1SM(Behavior):
 		_state_machine.userdata.camera_frame = 'bin2_camera_frame'
 		_state_machine.userdata.tool_link = 'ee_link'
 		_state_machine.userdata.agv_pose = []
-		_state_machine.userdata.part_offset = 0.08
+		_state_machine.userdata.part_offset_pick = 0.082
 		_state_machine.userdata.part_rotation = 0
 		_state_machine.userdata.conveyor_belt_power = 100.0
 		_state_machine.userdata.arm_id = 'arm1'
+		_state_machine.userdata.part_offset_place = 0.112
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]
@@ -111,7 +112,7 @@ class transport_part_form_bin_to_agv_state_1SM(Behavior):
 			# x:685 y:628
 			OperatableStateMachine.add('GetAgvPose',
 										GetObjectPoseState(object_frame='kit_tray_1', ref_frame='arm1_linear_arm_actuator'),
-										transitions={'continue': 'ComuteDrop', 'failed': 'ComuteDrop'},
+										transitions={'continue': 'ComputeDrop', 'failed': 'ComputeDrop'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'pose': 'agv_pose'})
 
@@ -149,7 +150,7 @@ class transport_part_form_bin_to_agv_state_1SM(Behavior):
 			# x:891 y:607
 			OperatableStateMachine.add('MoveR1PreDrop',
 										SrdfStateToMoveitAriac(),
-										transitions={'reached': 'GetAgvPose', 'planning_failed': 'WaitRetry6', 'control_failed': 'WaitRetry6', 'param_error': 'ComuteDrop'},
+										transitions={'reached': 'GetAgvPose', 'planning_failed': 'WaitRetry6', 'control_failed': 'WaitRetry6', 'param_error': 'ComputeDrop'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_tray2PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
@@ -161,11 +162,11 @@ class transport_part_form_bin_to_agv_state_1SM(Behavior):
 										remapping={'move_group_prefix': 'move_group_prefix', 'move_group': 'move_group', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:683 y:522
-			OperatableStateMachine.add('ComuteDrop',
+			OperatableStateMachine.add('ComputeDrop',
 										ComputeGraspAriacState(joint_names=['linear_arm_actuator_joint', 'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']),
 										transitions={'continue': 'MoveR1ToDrop', 'failed': 'MoveR1ToDrop'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
-										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'agv_pose', 'offset': 'part_offset', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'agv_pose', 'offset': 'part_offset_place', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:23 y:202
 			OperatableStateMachine.add('EndAssignment',
@@ -209,16 +210,16 @@ class transport_part_form_bin_to_agv_state_1SM(Behavior):
 			# x:914 y:177
 			OperatableStateMachine.add('CheckPartsPoseBin',
 										DetectPartCameraAriacState(time_out=2),
-										transitions={'continue': 'ComutePick', 'failed': 'failed', 'not_found': 'failed'},
+										transitions={'continue': 'ComputePick', 'failed': 'failed', 'not_found': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'not_found': Autonomy.Off},
 										remapping={'ref_frame': 'ref_frame', 'camera_topic': 'camera_topic', 'camera_frame': 'camera_frame', 'part': 'part', 'pose': 'part_pose'})
 
 			# x:921 y:262
-			OperatableStateMachine.add('ComutePick',
+			OperatableStateMachine.add('ComputePick',
 										ComputeGraspAriacState(joint_names=['linear_arm_actuator_joint', 'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']),
 										transitions={'continue': 'MoveR1ToPick', 'failed': 'MoveR1ToPick'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
-										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'part_pose', 'offset': 'part_offset', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'part_pose', 'offset': 'part_offset_pick', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:910 y:341
 			OperatableStateMachine.add('MoveR1ToPick',

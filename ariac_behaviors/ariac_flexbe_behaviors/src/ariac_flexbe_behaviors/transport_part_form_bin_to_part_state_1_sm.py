@@ -9,14 +9,13 @@
 
 from flexbe_core import Behavior, Autonomy, OperatableStateMachine, ConcurrencyContainer, PriorityContainer, Logger
 from ariac_flexbe_states.message_state import MessageState
-from ariac_flexbe_states.get_object_pose import GetObjectPoseState
 from flexbe_states.wait_state import WaitState
 from ariac_flexbe_states.srdf_state_to_moveit_ariac_state import SrdfStateToMoveitAriac
 from ariac_flexbe_states.moveit_to_joints_dyn_ariac_state import MoveitToJointsDynAriacState
-from ariac_flexbe_states.compute_grasp_ariac_state import ComputeGraspAriacState
 from ariac_flexbe_states.end_assignment_state import EndAssignment
 from ariac_flexbe_states.vacuum_gripper_control_state import VacuumGripperControlState
 from ariac_flexbe_states.detect_part_camera_ariac_state import DetectPartCameraAriacState
+from ariac_flexbe_states.compute_grasp_ariac_state import ComputeGraspAriacState
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
 
@@ -108,13 +107,6 @@ class transport_part_form_bin_to_part_state_1SM(Behavior):
 										autonomy={'continue': Autonomy.Off},
 										remapping={'message': 'part_type'})
 
-			# x:685 y:628
-			OperatableStateMachine.add('GetAgvPose',
-										GetObjectPoseState(object_frame='camera_frame_bin4', ref_frame='arm1_linear_arm_actuator'),
-										transitions={'continue': 'ComputeDrop', 'failed': 'ComputeDrop'},
-										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
-										remapping={'pose': 'bin4_pose'})
-
 			# x:1142 y:93
 			OperatableStateMachine.add('WaitRetry4',
 										WaitState(wait_time=5),
@@ -143,7 +135,7 @@ class transport_part_form_bin_to_part_state_1SM(Behavior):
 			# x:891 y:607
 			OperatableStateMachine.add('MoveR1PreDrop',
 										SrdfStateToMoveitAriac(),
-										transitions={'reached': 'GetAgvPose', 'planning_failed': 'WaitRetry6', 'control_failed': 'WaitRetry6', 'param_error': 'ComputeDrop'},
+										transitions={'reached': 'MoveR1ToDrop', 'planning_failed': 'WaitRetry6', 'control_failed': 'WaitRetry6', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_bin4PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
@@ -153,13 +145,6 @@ class transport_part_form_bin_to_part_state_1SM(Behavior):
 										transitions={'reached': 'GripperDisable', 'planning_failed': 'WaitRetry7', 'control_failed': 'WaitRetry7'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
 										remapping={'move_group_prefix': 'move_group_prefix', 'move_group': 'move_group', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
-
-			# x:683 y:522
-			OperatableStateMachine.add('ComputeDrop',
-										ComputeGraspAriacState(joint_names=['linear_arm_actuator_joint', 'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']),
-										transitions={'continue': 'MoveR1ToDrop', 'failed': 'MoveR1ToDrop'},
-										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
-										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'bin4_pose', 'offset': 'part_offset_place', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:23 y:202
 			OperatableStateMachine.add('EndAssignment',

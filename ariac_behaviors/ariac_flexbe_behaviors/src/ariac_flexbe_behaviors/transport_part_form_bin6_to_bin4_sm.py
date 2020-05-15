@@ -11,7 +11,6 @@ from flexbe_core import Behavior, Autonomy, OperatableStateMachine, ConcurrencyC
 from ariac_flexbe_states.message_state import MessageState
 from flexbe_states.wait_state import WaitState
 from ariac_flexbe_states.srdf_state_to_moveit_ariac_state import SrdfStateToMoveitAriac
-from ariac_flexbe_states.end_assignment_state import EndAssignment
 from ariac_flexbe_states.vacuum_gripper_control_state import VacuumGripperControlState
 from ariac_flexbe_states.detect_part_camera_ariac_state import DetectPartCameraAriacState
 from ariac_flexbe_states.compute_grasp_ariac_state import ComputeGraspAriacState
@@ -140,16 +139,10 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_bin4PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
-			# x:23 y:202
-			OperatableStateMachine.add('EndAssignment',
-										EndAssignment(),
-										transitions={'continue': 'finished'},
-										autonomy={'continue': Autonomy.Off})
-
 			# x:13 y:449
 			OperatableStateMachine.add('MoveR1PreDrop_2',
 										SrdfStateToMoveitAriac(),
-										transitions={'reached': 'EndAssignment', 'planning_failed': 'WaitRetry9', 'control_failed': 'WaitRetry9', 'param_error': 'WaitRetry9'},
+										transitions={'reached': 'finished', 'planning_failed': 'WaitRetry9', 'control_failed': 'WaitRetry9', 'param_error': 'WaitRetry9'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_bin4PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 

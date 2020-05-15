@@ -15,7 +15,6 @@ from ariac_flexbe_behaviors.notify_shipment_ready_sm import notify_shipment_read
 from ariac_flexbe_states.srdf_state_to_moveit_ariac_state import SrdfStateToMoveitAriac
 from ariac_flexbe_states.moveit_to_joints_dyn_ariac_state import MoveitToJointsDynAriacState
 from ariac_flexbe_states.compute_grasp_ariac_state import ComputeGraspAriacState
-from ariac_flexbe_states.end_assignment_state import EndAssignment
 from ariac_flexbe_states.vacuum_gripper_control_state import VacuumGripperControlState
 from ariac_flexbe_states.detect_part_camera_ariac_state import DetectPartCameraAriacState
 # Additional imports can be added inside the following tags
@@ -75,7 +74,7 @@ class transport_pulley_form_bin_to_agv_state_1SM(Behavior):
 		_state_machine.userdata.camera_frame = 'bin2_camera_frame'
 		_state_machine.userdata.tool_link = 'ee_link'
 		_state_machine.userdata.agv_pose = []
-		_state_machine.userdata.part_offset_pick = 0.082
+		_state_machine.userdata.part_offset_pick = 0.081
 		_state_machine.userdata.part_rotation = 0
 		_state_machine.userdata.conveyor_belt_power = 100.0
 		_state_machine.userdata.arm_id = 'arm1'
@@ -131,7 +130,7 @@ class transport_pulley_form_bin_to_agv_state_1SM(Behavior):
 			# x:16 y:320
 			OperatableStateMachine.add('DeliverShipment',
 										self.use_behavior(notify_shipment_readySM, 'DeliverShipment'),
-										transitions={'finished': 'EndAssignment', 'failed': 'MoveR1PreDrop_2'},
+										transitions={'finished': 'finished', 'failed': 'MoveR1PreDrop_2'},
 										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit})
 
 			# x:925 y:91
@@ -161,12 +160,6 @@ class transport_pulley_form_bin_to_agv_state_1SM(Behavior):
 										transitions={'continue': 'MoveR1ToDrop', 'failed': 'MoveR1ToDrop'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'agv_pose', 'offset': 'part_offset_place', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
-
-			# x:23 y:202
-			OperatableStateMachine.add('EndAssignment',
-										EndAssignment(),
-										transitions={'continue': 'finished'},
-										autonomy={'continue': Autonomy.Off})
 
 			# x:30 y:497
 			OperatableStateMachine.add('MoveR1PreDrop_2',

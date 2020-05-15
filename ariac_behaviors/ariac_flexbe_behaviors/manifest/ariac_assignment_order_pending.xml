@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="ariac_assignment_order_pending">
+
+	<executable package_path="ariac_flexbe_behaviors.ariac_assignment_order_pending_sm" class="ariac_assignment_order_pendingSM" />
+	<tagstring>ariac</tagstring>
+	<author>Bas Jochems, Niels van Dongen</author>
+	<date>Thu Apr 16 2020</date>
+	<description>
+		assignment
+	</description>
+
+
+	<!-- Contained Behaviors -->
+	<contains name="transport_piston_rod_form_bin_to_agv_state_1" />
+	<contains name="transport_gear_form_bin_to_agv_state_1" />
+	<contains name="transport_gasket_form_bin_to_agv_state_1" />
+	<contains name="transport_part_form_sharebin_to_agv1_state" />
+	<contains name="transport_part_form_sharebin_to_agv2_state" />
+	<contains name="transport_pulley_form_bin_to_agv_state_1" />
+	<contains name="transport_part_form_bin1_to_bin4" />
+	<contains name="transport_part_form_bin2_to_bin4" />
+
+	<!-- Available Parameters -->
+
+</behavior>

@@ -18,6 +18,8 @@ from ariac_support_flexbe_states.replace_state import ReplaceState
 from ariac_flexbe_behaviors.transport_pulley_form_bin_to_agv_state_1_sm import transport_pulley_form_bin_to_agv_state_1SM
 from ariac_flexbe_behaviors.transport_part_form_bin1_to_bin4_sm import transport_part_form_bin1_to_bin4SM
 from ariac_flexbe_behaviors.transport_part_form_bin2_to_bin4_sm import transport_part_form_bin2_to_bin4SM
+from ariac_flexbe_behaviors.transport_part_form_bin5_to_bin4_sm import transport_part_form_bin5_to_bin4SM
+from ariac_flexbe_behaviors.transport_part_form_bin6_to_bin4_sm import transport_part_form_bin6_to_bin4SM
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
 
@@ -49,6 +51,8 @@ class ariac_assignment_order_pendingSM(Behavior):
 		self.add_behavior(transport_pulley_form_bin_to_agv_state_1SM, 'transport_pulley_form_bin_to_agv_state_1')
 		self.add_behavior(transport_part_form_bin1_to_bin4SM, 'transport_part_form_bin1_to_bin4')
 		self.add_behavior(transport_part_form_bin2_to_bin4SM, 'transport_part_form_bin2_to_bin4')
+		self.add_behavior(transport_part_form_bin5_to_bin4SM, 'transport_part_form_bin5_to_bin4')
+		self.add_behavior(transport_part_form_bin6_to_bin4SM, 'transport_part_form_bin6_to_bin4')
 
 		# Additional initialization code can be added inside the following tags
 		# [MANUAL_INIT]
@@ -165,14 +169,14 @@ class ariac_assignment_order_pendingSM(Behavior):
 			# x:324 y:199
 			OperatableStateMachine.add('piston rod',
 										EqualState(),
-										transitions={'true': 'transport_part_form_sharebin_to_agv2_state', 'false': 'gear'},
+										transitions={'true': 'transport_part_form_bin5_to_bin4', 'false': 'gear'},
 										autonomy={'true': Autonomy.Off, 'false': Autonomy.Off},
 										remapping={'value_a': 'part_type', 'value_b': 'piston_rod_part'})
 
 			# x:335 y:322
 			OperatableStateMachine.add('gear',
 										EqualState(),
-										transitions={'true': 'transport_part_form_sharebin_to_agv2_state', 'false': 'failed'},
+										transitions={'true': 'transport_part_form_bin6_to_bin4', 'false': 'failed'},
 										autonomy={'true': Autonomy.Off, 'false': Autonomy.Off},
 										remapping={'value_a': 'part_type', 'value_b': 'gear_part'})
 
@@ -229,6 +233,20 @@ class ariac_assignment_order_pendingSM(Behavior):
 			OperatableStateMachine.add('transport_part_form_bin2_to_bin4',
 										self.use_behavior(transport_part_form_bin2_to_bin4SM, 'transport_part_form_bin2_to_bin4'),
 										transitions={'finished': 'transport_part_form_sharebin_to_agv1_state', 'failed': 'failed'},
+										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit},
+										remapping={'part_type': 'part_type', 'agv_id': 'agv_id', 'pose_on_agv': 'pose_on_agv'})
+
+			# x:583 y:193
+			OperatableStateMachine.add('transport_part_form_bin5_to_bin4',
+										self.use_behavior(transport_part_form_bin5_to_bin4SM, 'transport_part_form_bin5_to_bin4'),
+										transitions={'finished': 'transport_part_form_sharebin_to_agv2_state', 'failed': 'failed'},
+										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit},
+										remapping={'part_type': 'part_type', 'agv_id': 'agv_id', 'pose_on_agv': 'pose_on_agv'})
+
+			# x:584 y:285
+			OperatableStateMachine.add('transport_part_form_bin6_to_bin4',
+										self.use_behavior(transport_part_form_bin6_to_bin4SM, 'transport_part_form_bin6_to_bin4'),
+										transitions={'finished': 'transport_part_form_sharebin_to_agv2_state', 'failed': 'failed'},
 										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit},
 										remapping={'part_type': 'part_type', 'agv_id': 'agv_id', 'pose_on_agv': 'pose_on_agv'})
 

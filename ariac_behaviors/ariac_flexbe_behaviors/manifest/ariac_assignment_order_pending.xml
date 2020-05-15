@@ -20,6 +20,8 @@
 	<contains name="transport_pulley_form_bin_to_agv_state_1" />
 	<contains name="transport_part_form_bin1_to_bin4" />
 	<contains name="transport_part_form_bin2_to_bin4" />
+	<contains name="transport_part_form_bin5_to_bin4" />
+	<contains name="transport_part_form_bin6_to_bin4" />
 
 	<!-- Available Parameters -->
 

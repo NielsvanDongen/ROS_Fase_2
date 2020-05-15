@@ -26,15 +26,15 @@ from ariac_flexbe_states.moveit_to_joints_dyn_ariac_state import MoveitToJointsD
 Created on Wed Apr 22 2020
 @author: Bas Jochems, Niels van Dongen
 '''
-class transport_part_form_bin5_to_bin4SM(Behavior):
+class transport_part_form_bin6_to_bin4SM(Behavior):
 	'''
 	transports part from it's bin to the overzet bin
 	'''
 
 
 	def __init__(self):
-		super(transport_part_form_bin5_to_bin4SM, self).__init__()
-		self.name = 'transport_part_form_bin5_to_bin4'
+		super(transport_part_form_bin6_to_bin4SM, self).__init__()
+		self.name = 'transport_part_form_bin6_to_bin4'
 
 		# parameters of this behavior
 

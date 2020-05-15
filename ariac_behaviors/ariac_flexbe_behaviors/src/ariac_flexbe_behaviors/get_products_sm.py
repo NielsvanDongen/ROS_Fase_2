@@ -143,7 +143,7 @@ This example is a part of the order example.
 										self.use_behavior(ariac_assignment_order_pendingSM, 'ariac_assignment_order_pending'),
 										transitions={'finished': 'IncrementProductIterator', 'failed': 'fail'},
 										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit},
-										remapping={'agv_id': 'agv_id', 'pose_on_agv': 'pose_on_agv', 'pose_on_agv': 'pose_on_agv'})
+										remapping={'agv_id': 'agv_id', 'part_type': 'part_type', 'pose_on_agv': 'pose_on_agv'})
 
 			# x:1577 y:245
 			OperatableStateMachine.add('part type',

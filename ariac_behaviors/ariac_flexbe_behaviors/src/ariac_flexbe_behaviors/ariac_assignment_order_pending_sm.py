@@ -65,7 +65,7 @@ class ariac_assignment_order_pendingSM(Behavior):
 
 	def create(self):
 		# x:1771 y:400, x:1225 y:399
-		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'], input_keys=['agv_id', 'part_pose', 'pose_on_agv'])
+		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'], input_keys=['agv_id', 'part_type', 'pose_on_agv'])
 		_state_machine.userdata.part_pose = []
 		_state_machine.userdata.joint_values = []
 		_state_machine.userdata.joint_names = []

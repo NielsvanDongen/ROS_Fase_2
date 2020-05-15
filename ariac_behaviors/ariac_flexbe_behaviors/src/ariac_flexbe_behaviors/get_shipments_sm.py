@@ -12,7 +12,6 @@ from ariac_logistics_flexbe_states.get_products_from_shipment_state import GetPr
 from ariac_support_flexbe_states.add_numeric_state import AddNumericState
 from ariac_support_flexbe_states.equal_state import EqualState
 from ariac_flexbe_behaviors.get_products_sm import get_productsSM
-from ariac_flexbe_states.message_state import MessageState
 from ariac_support_flexbe_states.replace_state import ReplaceState
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
@@ -74,7 +73,7 @@ This example is a part of the order example.
 			# x:43 y:24
 			OperatableStateMachine.add('GetProducts',
 										GetProductsFromShipmentState(),
-										transitions={'continue': 'ShipmenTypeMessage', 'invalid_index': 'fail'},
+										transitions={'continue': 'agv id', 'invalid_index': 'fail'},
 										autonomy={'continue': Autonomy.Off, 'invalid_index': Autonomy.Off},
 										remapping={'shipments': 'Shipments', 'index': 'ShipmentIterator', 'shipment_type': 'ShipmentType', 'agv_id': 'AgvID', 'products': 'Products', 'number_of_products': 'NumberOfProducts'})
 
@@ -98,20 +97,6 @@ This example is a part of the order example.
 										transitions={'finished': 'IncrementShipmentsIterator', 'fail': 'fail'},
 										autonomy={'finished': Autonomy.Inherit, 'fail': Autonomy.Inherit},
 										remapping={'Products': 'Products', 'NumberOfProducts': 'NumberOfProducts', 'agv_id': 'agv_id'})
-
-			# x:252 y:25
-			OperatableStateMachine.add('ShipmenTypeMessage',
-										MessageState(),
-										transitions={'continue': 'AgvIdMessage'},
-										autonomy={'continue': Autonomy.Off},
-										remapping={'message': 'ShipmentType'})
-
-			# x:416 y:28
-			OperatableStateMachine.add('AgvIdMessage',
-										MessageState(),
-										transitions={'continue': 'agv id'},
-										autonomy={'continue': Autonomy.Off},
-										remapping={'message': 'AgvID'})
 
 			# x:549 y:20
 			OperatableStateMachine.add('agv id',

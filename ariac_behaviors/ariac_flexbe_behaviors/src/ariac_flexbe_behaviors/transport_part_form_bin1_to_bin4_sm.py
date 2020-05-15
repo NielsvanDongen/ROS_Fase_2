@@ -66,7 +66,7 @@ class transport_part_form_bin1_to_bin4SM(Behavior):
 		_state_machine.userdata.action_topic = '/move_group'
 		_state_machine.userdata.robot_name = ''
 		_state_machine.userdata.config_name_bin1PreGrasp = 'bin1PreGrasp'
-		_state_machine.userdata.config_name_bin4Place = 'bin4PreGraspR1'
+		_state_machine.userdata.config_name_bin4Place = 'bin4DropR1'
 		_state_machine.userdata.ref_frame = 'arm1_linear_arm_actuator'
 		_state_machine.userdata.camera_topic = '/ariac/bin1_camera'
 		_state_machine.userdata.camera_frame_bin1 = 'bin1_camera_frame'
@@ -78,7 +78,7 @@ class transport_part_form_bin1_to_bin4SM(Behavior):
 		_state_machine.userdata.arm_id = 'arm1'
 		_state_machine.userdata.part_offset_place = 0.065
 		_state_machine.userdata.camera_bin4_frame = '/ariac/bin4_camera'
-		_state_machine.userdata.config_name_bin4PreDrop = 'bin4DropR1'
+		_state_machine.userdata.config_name_bin4PreDrop = 'bin4PreGraspR1'
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]

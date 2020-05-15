@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="transport_part_form_bin1_to_bin4">
+
+	<executable package_path="ariac_flexbe_behaviors.transport_part_form_bin1_to_bin4_sm" class="transport_part_form_bin1_to_bin4SM" />
+	<tagstring>ariac</tagstring>
+	<author>Bas Jochems, Niels van Dongen</author>
+	<date>Wed Apr 22 2020</date>
+	<description>
+		transports part from it's bin to the overzet bin
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>

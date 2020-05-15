@@ -75,11 +75,11 @@ class transport_piston_rod_form_bin_to_agv_state_1SM(Behavior):
 		_state_machine.userdata.camera_frame = 'bin5_camera_frame'
 		_state_machine.userdata.tool_link = 'ee_link'
 		_state_machine.userdata.agv_pose = []
-		_state_machine.userdata.part_offset_pick = 0.035
+		_state_machine.userdata.part_offset_pick = 0.02
 		_state_machine.userdata.part_rotation = 0
 		_state_machine.userdata.conveyor_belt_power = 100.0
 		_state_machine.userdata.arm_id = 'arm2'
-		_state_machine.userdata.part_offset_place = 0.065
+		_state_machine.userdata.part_offset_place = 0.05
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]

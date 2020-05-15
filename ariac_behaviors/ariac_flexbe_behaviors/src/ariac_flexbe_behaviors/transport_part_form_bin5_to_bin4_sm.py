@@ -26,15 +26,15 @@ from ariac_flexbe_states.moveit_to_joints_dyn_ariac_state import MoveitToJointsD
 Created on Wed Apr 22 2020
 @author: Bas Jochems, Niels van Dongen
 '''
-class transport_part_form_bin2_to_bin4SM(Behavior):
+class transport_part_form_bin5_to_bin4SM(Behavior):
 	'''
 	transports part from it's bin to the overzet bin
 	'''
 
 
 	def __init__(self):
-		super(transport_part_form_bin2_to_bin4SM, self).__init__()
-		self.name = 'transport_part_form_bin2_to_bin4'
+		super(transport_part_form_bin5_to_bin4SM, self).__init__()
+		self.name = 'transport_part_form_bin5_to_bin4'
 
 		# parameters of this behavior
 
@@ -61,24 +61,24 @@ class transport_part_form_bin2_to_bin4SM(Behavior):
 		_state_machine.userdata.part = 'pulley_part'
 		_state_machine.userdata.offset = 0.1
 		_state_machine.userdata.move_group = 'manipulator'
-		_state_machine.userdata.move_group_prefix = '/ariac/arm1'
+		_state_machine.userdata.move_group_prefix = '/ariac/arm2'
 		_state_machine.userdata.config_name_home = 'home'
 		_state_machine.userdata.action_topic = '/move_group'
 		_state_machine.userdata.robot_name = ''
-		_state_machine.userdata.config_name_bin2PreGrasp = 'bin2PreGrasp'
-		_state_machine.userdata.config_name_bin4Place = 'bin4DropR1'
-		_state_machine.userdata.ref_frame = 'arm1_linear_arm_actuator'
-		_state_machine.userdata.camera_topic = '/ariac/bin2_camera'
-		_state_machine.userdata.camera_frame_bin2 = 'bin2_camera_frame'
+		_state_machine.userdata.config_name_bin2PreGrasp = 'bin5PreGrasp'
+		_state_machine.userdata.config_name_bin4Place = 'bin4DropR2'
+		_state_machine.userdata.ref_frame = 'arm2_linear_arm_actuator'
+		_state_machine.userdata.camera_topic = '/ariac/bin5_camera'
+		_state_machine.userdata.camera_frame_bin2 = 'bin5_camera_frame'
 		_state_machine.userdata.tool_link = 'ee_link'
 		_state_machine.userdata.bin4_pose = []
 		_state_machine.userdata.part_offset_pick = 0.081
 		_state_machine.userdata.part_rotation = 0
 		_state_machine.userdata.conveyor_belt_power = 100.0
-		_state_machine.userdata.arm_id = 'arm1'
+		_state_machine.userdata.arm_id = 'arm2'
 		_state_machine.userdata.part_offset_place = 0.112
 		_state_machine.userdata.camera_bin4_frame = '/ariac/bin4_camera'
-		_state_machine.userdata.config_name_bin4PreDrop = 'bin4PreGraspR1'
+		_state_machine.userdata.config_name_bin4PreDrop = 'bin4PreGraspR2'
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]

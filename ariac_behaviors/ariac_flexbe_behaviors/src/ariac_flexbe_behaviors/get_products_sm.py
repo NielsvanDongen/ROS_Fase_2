@@ -14,6 +14,8 @@ from ariac_support_flexbe_states.equal_state import EqualState
 from ariac_flexbe_states.message_state import MessageState
 from ariac_logistics_flexbe_states.get_material_locations import GetMaterialLocationsState
 from ariac_support_flexbe_states.get_item_from_list_state import GetItemFromListState
+from ariac_flexbe_behaviors.ariac_assignment_order_pending_sm import ariac_assignment_order_pendingSM
+from ariac_support_flexbe_states.replace_state import ReplaceState
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
 
@@ -39,6 +41,7 @@ This example is a part of the order example.
 		# parameters of this behavior
 
 		# references to used behaviors
+		self.add_behavior(ariac_assignment_order_pendingSM, 'ariac_assignment_order_pending')
 
 		# Additional initialization code can be added inside the following tags
 		# [MANUAL_INIT]
@@ -50,8 +53,8 @@ This example is a part of the order example.
 
 
 	def create(self):
-		# x:719 y:341, x:826 y:25
-		_state_machine = OperatableStateMachine(outcomes=['finished', 'fail'], input_keys=['Products', 'NumberOfProducts'])
+		# x:719 y:341, x:869 y:198
+		_state_machine = OperatableStateMachine(outcomes=['finished', 'fail'], input_keys=['Products', 'NumberOfProducts', 'agv_id'])
 		_state_machine.userdata.ProductIterator = 0
 		_state_machine.userdata.OneValue = 1
 		_state_machine.userdata.ProductType = ''
@@ -61,6 +64,9 @@ This example is a part of the order example.
 		_state_machine.userdata.MaterialsLocationList = []
 		_state_machine.userdata.MaterialLocation = ''
 		_state_machine.userdata.MaterailLocationIndex = 0
+		_state_machine.userdata.part_type = ''
+		_state_machine.userdata.agv_id = ''
+		_state_machine.userdata.pose_on_agv = ''
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]
@@ -128,9 +134,30 @@ This example is a part of the order example.
 			# x:1406 y:124
 			OperatableStateMachine.add('MaterailLocationMessage',
 										MessageState(),
-										transitions={'continue': 'IncrementProductIterator'},
+										transitions={'continue': 'part type'},
 										autonomy={'continue': Autonomy.Off},
 										remapping={'message': 'MaterialLocation'})
+
+			# x:1069 y:240
+			OperatableStateMachine.add('ariac_assignment_order_pending',
+										self.use_behavior(ariac_assignment_order_pendingSM, 'ariac_assignment_order_pending'),
+										transitions={'finished': 'IncrementProductIterator', 'failed': 'fail'},
+										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit},
+										remapping={'agv_id': 'agv_id', 'pose_on_agv': 'pose_on_agv', 'pose_on_agv': 'pose_on_agv'})
+
+			# x:1577 y:245
+			OperatableStateMachine.add('part type',
+										ReplaceState(),
+										transitions={'done': 'product pose'},
+										autonomy={'done': Autonomy.Off},
+										remapping={'value': 'ProductType', 'result': 'part_type'})
+
+			# x:1348 y:244
+			OperatableStateMachine.add('product pose',
+										ReplaceState(),
+										transitions={'done': 'ariac_assignment_order_pending'},
+										autonomy={'done': Autonomy.Off},
+										remapping={'value': 'ProductPose', 'result': 'pose_on_agv'})
 
 
 		return _state_machine

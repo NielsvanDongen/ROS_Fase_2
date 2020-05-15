@@ -58,25 +58,25 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 		_state_machine.userdata.part_pose = []
 		_state_machine.userdata.joint_values = []
 		_state_machine.userdata.joint_names = []
-		_state_machine.userdata.part = 'piston_rod_part'
+		_state_machine.userdata.part = 'gear_part'
 		_state_machine.userdata.offset = 0.1
 		_state_machine.userdata.move_group = 'manipulator'
 		_state_machine.userdata.move_group_prefix = '/ariac/arm2'
 		_state_machine.userdata.config_name_home = 'home'
 		_state_machine.userdata.action_topic = '/move_group'
 		_state_machine.userdata.robot_name = ''
-		_state_machine.userdata.config_name_bin5PreGrasp = 'bin5PreGrasp'
+		_state_machine.userdata.config_name_bin6PreGrasp = 'bin6PreGrasp'
 		_state_machine.userdata.config_name_bin4Place = 'bin4DropR2'
 		_state_machine.userdata.ref_frame = 'arm2_linear_arm_actuator'
-		_state_machine.userdata.camera_topic = '/ariac/bin5_camera'
-		_state_machine.userdata.camera_frame_bin5 = 'bin5_camera_frame'
+		_state_machine.userdata.camera_topic = '/ariac/bin6_camera'
+		_state_machine.userdata.camera_frame_bin6 = 'bin6_camera_frame'
 		_state_machine.userdata.tool_link = 'ee_link'
 		_state_machine.userdata.bin4_pose = []
-		_state_machine.userdata.part_offset_pick = 0.02
+		_state_machine.userdata.part_offset_pick = 0.0195
 		_state_machine.userdata.part_rotation = 0
 		_state_machine.userdata.conveyor_belt_power = 100.0
 		_state_machine.userdata.arm_id = 'arm2'
-		_state_machine.userdata.part_offset_place = 0.05
+		_state_machine.userdata.part_offset_place = 0.054
 		_state_machine.userdata.camera_bin4_frame = '/ariac/bin4_camera'
 		_state_machine.userdata.config_name_bin4PreDrop = 'bin4PreGraspR2'
 
@@ -131,7 +131,7 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 										SrdfStateToMoveitAriac(),
 										transitions={'reached': 'CheckPartsPoseBin', 'planning_failed': 'WaitRetry4', 'control_failed': 'WaitRetry4', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
-										remapping={'config_name': 'config_name_bin5PreGrasp', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+										remapping={'config_name': 'config_name_bin6PreGrasp', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:891 y:607
 			OperatableStateMachine.add('MoveR1PreDrop',
@@ -184,7 +184,7 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 										DetectPartCameraAriacState(time_out=2),
 										transitions={'continue': 'ComputePick', 'failed': 'failed', 'not_found': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'not_found': Autonomy.Off},
-										remapping={'ref_frame': 'ref_frame', 'camera_topic': 'camera_topic', 'camera_frame': 'camera_frame_bin5', 'part': 'part', 'pose': 'part_pose'})
+										remapping={'ref_frame': 'ref_frame', 'camera_topic': 'camera_topic', 'camera_frame': 'camera_frame_bin6', 'part': 'part', 'pose': 'part_pose'})
 
 			# x:921 y:262
 			OperatableStateMachine.add('ComputePick',
@@ -217,7 +217,7 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 										SrdfStateToMoveitAriac(),
 										transitions={'reached': 'MoveR1PreDrop', 'planning_failed': 'WaitRetry4_2', 'control_failed': 'WaitRetry4_2', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
-										remapping={'config_name': 'config_name_bin5PreGrasp', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+										remapping={'config_name': 'config_name_bin6PreGrasp', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:25 y:614
 			OperatableStateMachine.add('WaitRetry9',

@@ -3,7 +3,10 @@
 from flexbe_core import EventState, Logger
 import sys
 import rospy
+import rostopic
 from osrf_gear.srv import VacuumGripperControl, VacuumGripperControlRequest, VacuumGripperControlResponse
+from osrf_gear.msg import VacuumGripperState
+from std_msgs.msg import String
 
 class VacuumGripperControlState(EventState):
 	'''
@@ -56,7 +59,19 @@ class VacuumGripperControlState(EventState):
 
 			# Return the response to the calling function.
 			if service_response.success == True:
-				return 'continue'
+				if self._enable == True:
+					if userdata.arm_id == 'arm1':
+						status = rospy.wait_for_message('/ariac/arm1/gripper/state', VacuumGripperState)
+						if status.attached == True:
+							return 'continue'
+					elif userdata.arm_id == 'arm2':
+						status = rospy.wait_for_message('/ariac/arm2/gripper/state', VacuumGripperState)
+						if status.attached == True:
+							return 'continue'
+					else:
+						return 'failed'
+				else:
+					return 'continue'
 			else:
 				return 'failed'
 

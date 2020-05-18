@@ -115,13 +115,13 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 
 			# x:1241 y:210
 			OperatableStateMachine.add('WaitRetry4',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR1PreGrasp2'},
 										autonomy={'done': Autonomy.Off})
 
 			# x:681 y:654
 			OperatableStateMachine.add('WaitRetry6',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR1PreDrop'},
 										autonomy={'done': Autonomy.Off})
 
@@ -160,29 +160,17 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_tray2PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
-			# x:913 y:417
+			# x:897 y:361
 			OperatableStateMachine.add('GripperEnable',
 										VacuumGripperControlState(enable=True),
-										transitions={'continue': 'MoveR1PreGrasp2_2', 'failed': 'WaitRetry5', 'invalid_arm_id': 'failed'},
+										transitions={'continue': 'MoveR1PreGrasp2_2', 'failed': 'ComputePick', 'invalid_arm_id': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'invalid_arm_id': Autonomy.Off},
 										remapping={'arm_id': 'arm_id'})
-
-			# x:1142 y:415
-			OperatableStateMachine.add('WaitRetry5',
-										WaitState(wait_time=5),
-										transitions={'done': 'GripperEnable'},
-										autonomy={'done': Autonomy.Off})
-
-			# x:236 y:627
-			OperatableStateMachine.add('WaitRetry8',
-										WaitState(wait_time=5),
-										transitions={'done': 'GripperDisable'},
-										autonomy={'done': Autonomy.Off})
 
 			# x:226 y:507
 			OperatableStateMachine.add('GripperDisable',
 										VacuumGripperControlState(enable=False),
-										transitions={'continue': 'MoveR1PreDrop_2', 'failed': 'WaitRetry8', 'invalid_arm_id': 'failed'},
+										transitions={'continue': 'MoveR1PreDrop_2', 'failed': 'MoveR1ToDrop', 'invalid_arm_id': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'invalid_arm_id': Autonomy.Off},
 										remapping={'arm_id': 'arm_id'})
 
@@ -196,11 +184,11 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 			# x:921 y:262
 			OperatableStateMachine.add('ComputePick',
 										ComputeGraspAriacState(joint_names=['linear_arm_actuator_joint', 'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']),
-										transitions={'continue': 'MoveR1ToPick', 'failed': 'MoveR1ToPick'},
+										transitions={'continue': 'GripperEnable', 'failed': 'GripperEnable'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'part_pose', 'offset': 'part_offset_pick', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
-			# x:910 y:325
+			# x:910 y:423
 			OperatableStateMachine.add('MoveR1ToPick',
 										MoveitToJointsDynAriacState(),
 										transitions={'reached': 'GripperEnable', 'planning_failed': 'WaitRetry4', 'control_failed': 'WaitRetry4'},
@@ -209,7 +197,7 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 
 			# x:1154 y:509
 			OperatableStateMachine.add('WaitRetry4_2',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR1PreGrasp2_2'},
 										autonomy={'done': Autonomy.Off})
 

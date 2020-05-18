@@ -71,7 +71,7 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 		_state_machine.userdata.camera_frame_bin6 = 'bin6_camera_frame'
 		_state_machine.userdata.tool_link = 'ee_link'
 		_state_machine.userdata.bin4_pose = []
-		_state_machine.userdata.part_offset_pick = 0.020
+		_state_machine.userdata.part_offset_pick = 0.021
 		_state_machine.userdata.part_rotation = 0
 		_state_machine.userdata.conveyor_belt_power = 100.0
 		_state_machine.userdata.arm_id = 'arm2'
@@ -110,19 +110,19 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 
 			# x:1142 y:93
 			OperatableStateMachine.add('WaitRetry4',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR1PreGrasp2'},
 										autonomy={'done': Autonomy.Off})
 
 			# x:515 y:637
 			OperatableStateMachine.add('WaitRetry7',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR1ToPlaceBin4'},
 										autonomy={'done': Autonomy.Off})
 
 			# x:1090 y:652
 			OperatableStateMachine.add('WaitRetry6',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR1PreDrop'},
 										autonomy={'done': Autonomy.Off})
 
@@ -147,29 +147,17 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_bin4PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
-			# x:913 y:417
+			# x:902 y:410
 			OperatableStateMachine.add('GripperEnable',
 										VacuumGripperControlState(enable=True),
-										transitions={'continue': 'MoveR1PreGrasp2_2', 'failed': 'WaitRetry5', 'invalid_arm_id': 'failed'},
+										transitions={'continue': 'MoveR1PreGrasp2_2', 'failed': 'ComputePick', 'invalid_arm_id': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'invalid_arm_id': Autonomy.Off},
 										remapping={'arm_id': 'arm_id'})
-
-			# x:1142 y:415
-			OperatableStateMachine.add('WaitRetry5',
-										WaitState(wait_time=5),
-										transitions={'done': 'GripperEnable'},
-										autonomy={'done': Autonomy.Off})
-
-			# x:206 y:621
-			OperatableStateMachine.add('WaitRetry8',
-										WaitState(wait_time=5),
-										transitions={'done': 'GripperDisable'},
-										autonomy={'done': Autonomy.Off})
 
 			# x:226 y:507
 			OperatableStateMachine.add('GripperDisable',
 										VacuumGripperControlState(enable=False),
-										transitions={'continue': 'MoveR1PreDrop_2', 'failed': 'WaitRetry8', 'invalid_arm_id': 'failed'},
+										transitions={'continue': 'MoveR1PreDrop_2', 'failed': 'MoveR1ToPlaceBin4', 'invalid_arm_id': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'invalid_arm_id': Autonomy.Off},
 										remapping={'arm_id': 'arm_id'})
 
@@ -196,13 +184,13 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 
 			# x:1169 y:346
 			OperatableStateMachine.add('WaitRetry4_2_2',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR1ToPick'},
 										autonomy={'done': Autonomy.Off})
 
 			# x:1139 y:510
 			OperatableStateMachine.add('WaitRetry4_2',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR1PreGrasp2_2'},
 										autonomy={'done': Autonomy.Off})
 
@@ -215,7 +203,7 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 
 			# x:25 y:614
 			OperatableStateMachine.add('WaitRetry9',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR1PreDrop_2'},
 										autonomy={'done': Autonomy.Off})
 
@@ -228,7 +216,7 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 
 			# x:206 y:288
 			OperatableStateMachine.add('WaitRetry10',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR2Home'},
 										autonomy={'done': Autonomy.Off})
 

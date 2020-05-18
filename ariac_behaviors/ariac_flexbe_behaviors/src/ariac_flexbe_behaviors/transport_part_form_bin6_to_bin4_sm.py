@@ -71,7 +71,7 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 		_state_machine.userdata.camera_frame_bin6 = 'bin6_camera_frame'
 		_state_machine.userdata.tool_link = 'ee_link'
 		_state_machine.userdata.bin4_pose = []
-		_state_machine.userdata.part_offset_pick = 0.0195
+		_state_machine.userdata.part_offset_pick = 0.020
 		_state_machine.userdata.part_rotation = 0
 		_state_machine.userdata.conveyor_belt_power = 100.0
 		_state_machine.userdata.arm_id = 'arm2'

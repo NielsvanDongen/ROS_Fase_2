@@ -78,6 +78,7 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 		_state_machine.userdata.part_offset_place = 0.054
 		_state_machine.userdata.camera_bin4_frame = '/ariac/bin4_camera'
 		_state_machine.userdata.config_name_bin4PreDrop = 'bin4PreGraspR2'
+		_state_machine.userdata.config_name_home = 'home'
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]
@@ -142,7 +143,7 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 			# x:13 y:449
 			OperatableStateMachine.add('MoveR1PreDrop_2',
 										SrdfStateToMoveitAriac(),
-										transitions={'reached': 'finished', 'planning_failed': 'WaitRetry9', 'control_failed': 'WaitRetry9', 'param_error': 'WaitRetry9'},
+										transitions={'reached': 'MoveR2Home', 'planning_failed': 'WaitRetry9', 'control_failed': 'WaitRetry9', 'param_error': 'WaitRetry9'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_bin4PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
@@ -224,6 +225,19 @@ class transport_part_form_bin6_to_bin4SM(Behavior):
 										transitions={'reached': 'GripperDisable', 'planning_failed': 'WaitRetry7', 'control_failed': 'WaitRetry7', 'param_error': 'WaitRetry7'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_bin4Place', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+
+			# x:206 y:288
+			OperatableStateMachine.add('WaitRetry10',
+										WaitState(wait_time=5),
+										transitions={'done': 'MoveR2Home'},
+										autonomy={'done': Autonomy.Off})
+
+			# x:14 y:274
+			OperatableStateMachine.add('MoveR2Home',
+										SrdfStateToMoveitAriac(),
+										transitions={'reached': 'finished', 'planning_failed': 'WaitRetry10', 'control_failed': 'WaitRetry10', 'param_error': 'WaitRetry10'},
+										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
+										remapping={'config_name': 'config_name_home', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 
 		return _state_machine

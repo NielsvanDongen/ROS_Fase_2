@@ -66,7 +66,7 @@ This example is a part of the order example.
 		_state_machine.userdata.MaterailLocationIndex = 0
 		_state_machine.userdata.part_type = ''
 		_state_machine.userdata.agv_id = ''
-		_state_machine.userdata.pose_on_agv = ''
+		_state_machine.userdata.pose_on_agv = []
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]
@@ -157,7 +157,7 @@ This example is a part of the order example.
 										ReplaceState(),
 										transitions={'done': 'ariac_assignment_order_pending'},
 										autonomy={'done': Autonomy.Off},
-										remapping={'value': 'ProductPose', 'result': 'pose_on_agv'})
+										remapping={'value': 'pose_on_agv', 'result': 'ProductPose'})
 
 
 		return _state_machine

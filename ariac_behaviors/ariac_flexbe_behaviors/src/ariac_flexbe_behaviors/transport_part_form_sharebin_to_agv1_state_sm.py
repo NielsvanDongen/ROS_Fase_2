@@ -51,7 +51,7 @@ class transport_part_form_sharebin_to_agv1_stateSM(Behavior):
 
 	def create(self):
 		# x:71 y:147, x:609 y:234
-		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'], input_keys=['part_type', 'agv_id', 'pose_on_agv'])
+		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'], input_keys=['part_type', 'agv_id', 'pose_on_agv', 'offset_part'])
 		_state_machine.userdata.part_type = ''
 		_state_machine.userdata.agv_id = ''
 		_state_machine.userdata.pose_on_agv = []
@@ -59,7 +59,7 @@ class transport_part_form_sharebin_to_agv1_stateSM(Behavior):
 		_state_machine.userdata.joint_values = []
 		_state_machine.userdata.joint_names = []
 		_state_machine.userdata.part = 'gear_part'
-		_state_machine.userdata.offset = 0.1
+		_state_machine.userdata.offset_part = ''
 		_state_machine.userdata.move_group = 'manipulator'
 		_state_machine.userdata.move_group_prefix = '/ariac/arm2'
 		_state_machine.userdata.config_name_home = 'home'
@@ -76,7 +76,8 @@ class transport_part_form_sharebin_to_agv1_stateSM(Behavior):
 		_state_machine.userdata.part_rotation = 0
 		_state_machine.userdata.conveyor_belt_power = 100.0
 		_state_machine.userdata.arm_id = 'arm2'
-		_state_machine.userdata.part_offset_place = 0.055
+		_state_machine.userdata.part_offset_place = 0.111
+		_state_machine.userdata.offset = ''
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]
@@ -189,16 +190,16 @@ class transport_part_form_sharebin_to_agv1_stateSM(Behavior):
 			# x:914 y:177
 			OperatableStateMachine.add('CheckPartsPoseBin',
 										DetectPartCameraAriacState(time_out=2),
-										transitions={'continue': 'ComputePick', 'failed': 'failed', 'not_found': 'failed'},
+										transitions={'continue': 'ComputePick', 'failed': 'ComputePick', 'not_found': 'ComputePick'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'not_found': Autonomy.Off},
-										remapping={'ref_frame': 'ref_frame', 'camera_topic': 'camera_topic', 'camera_frame': 'camera_frame', 'part': 'part', 'pose': 'part_pose'})
+										remapping={'ref_frame': 'ref_frame', 'camera_topic': 'camera_topic', 'camera_frame': 'camera_frame', 'part': 'part_type', 'pose': 'part_pose'})
 
 			# x:921 y:262
 			OperatableStateMachine.add('ComputePick',
 										ComputeGraspAriacState(joint_names=['linear_arm_actuator_joint', 'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']),
 										transitions={'continue': 'MoveR1ToPick', 'failed': 'MoveR1ToPick'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
-										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'part_pose', 'offset': 'part_offset_pick', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'part_pose', 'offset': 'offset_part', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:910 y:325
 			OperatableStateMachine.add('MoveR1ToPick',

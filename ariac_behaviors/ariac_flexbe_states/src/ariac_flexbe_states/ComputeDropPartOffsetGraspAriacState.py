@@ -76,9 +76,10 @@ class ComputeDropPartOffsetGraspAriacState(EventState):
         ># move_group_prefix    string          Name of the prefix of the move group to be used for planning.
 	># tool_link		string		e.g. "ee_link"
 	># pose			PoseStamped	pose part on agv
+	># part_pose		Pose		joejoe
 	#> joint_values		float[]		joint values for grasping
 	#> joint_names		string[]	names of the joints
-	#> part_pose		Pose		joejoe
+
 
 	<= continue 				if a grasp configuration has been computed for the pose
 	<= failed 				otherwise.
@@ -161,12 +162,12 @@ class ComputeDropPartOffsetGraspAriacState(EventState):
 		# rotate the object pose 180 degrees around - now works with -90???
 
 		#q_orig = [target_pose.pose.orientation.x, target_pose.pose.orientation.y, target_pose.pose.orientation.z, target_pose.pose.orientation.w]
-		q_orig = [0, 0, 0, 1]
+		#q_orig = [0, 0, 0, 1]
 		#q_rot = quaternion_from_euler(self._rotation, 0, 0)
-		q_rot = quaternion_from_euler(self._rotation, math.pi/2.0, 0) # math.pi/2.0 added by gerard!!
+		#q_rot = quaternion_from_euler(self._rotation, math.pi/2.0, 0) # math.pi/2.0 added by gerard!!
 		#q_rot = quaternion_from_euler(math.pi/-2.0, 0, 0)
-		res_q = quaternion_multiply(q_rot, q_orig)
-		target_pose.pose.orientation = geometry_msgs.msg.Quaternion(*res_q)
+		#res_q = quaternion_multiply(q_rot, q_orig)
+		#target_pose.pose.orientation = geometry_msgs.msg.Quaternion(*res_q)
 
 		# use ik service to compute joint_values
 		self._srv_req = GetPositionIKRequest()

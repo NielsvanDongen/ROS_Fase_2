@@ -97,7 +97,7 @@ class ariac_assignment_order_pendingSM(Behavior):
 		_state_machine.userdata.agv1 = 'agv1'
 		_state_machine.userdata.agv2 = 'agv2'
 		_state_machine.userdata.pose_on_agv = []
-		_state_machine.userdata.offset_gasket = 0.035
+		_state_machine.userdata.offset_gasket = 0.036
 		_state_machine.userdata.offset_pulley = 0.081
 		_state_machine.userdata.offset_piston = 0.02
 		_state_machine.userdata.offset_gear = 0.019

@@ -157,7 +157,7 @@ This example is a part of the order example.
 										ReplaceState(),
 										transitions={'done': 'ariac_assignment_order_pending'},
 										autonomy={'done': Autonomy.Off},
-										remapping={'value': 'pose_on_agv', 'result': 'ProductPose'})
+										remapping={'value': 'ProductPose', 'result': 'pose_on_agv'})
 
 
 		return _state_machine

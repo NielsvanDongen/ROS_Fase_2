@@ -13,6 +13,7 @@ from ariac_support_flexbe_states.add_numeric_state import AddNumericState
 from ariac_support_flexbe_states.equal_state import EqualState
 from ariac_flexbe_behaviors.get_products_sm import get_productsSM
 from ariac_support_flexbe_states.replace_state import ReplaceState
+from ariac_flexbe_behaviors.notify_shipment_ready_sm import notify_shipment_readySM
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
 
@@ -39,6 +40,7 @@ This example is a part of the order example.
 
 		# references to used behaviors
 		self.add_behavior(get_productsSM, 'get_products')
+		self.add_behavior(notify_shipment_readySM, 'DeliverShipment')
 
 		# Additional initialization code can be added inside the following tags
 		# [MANUAL_INIT]
@@ -50,7 +52,7 @@ This example is a part of the order example.
 
 
 	def create(self):
-		# x:1118 y:135, x:507 y:231
+		# x:1381 y:133, x:931 y:389
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'fail'], input_keys=['Shipments', 'NumberOfShipments'])
 		_state_machine.userdata.Shipments = []
 		_state_machine.userdata.NumberOfShipments = 0
@@ -84,10 +86,10 @@ This example is a part of the order example.
 										autonomy={'done': Autonomy.Off},
 										remapping={'value_a': 'ShipmentIterator', 'value_b': 'OneValue', 'result': 'ShipmentIterator'})
 
-			# x:918 y:115
+			# x:910 y:138
 			OperatableStateMachine.add('CompareShepmentsIterator',
 										EqualState(),
-										transitions={'true': 'finished', 'false': 'GetProducts'},
+										transitions={'true': 'DeliverShipment', 'false': 'GetProducts'},
 										autonomy={'true': Autonomy.Off, 'false': Autonomy.Off},
 										remapping={'value_a': 'ShipmentIterator', 'value_b': 'NumberOfShipments'})
 
@@ -104,6 +106,12 @@ This example is a part of the order example.
 										transitions={'done': 'get_products'},
 										autonomy={'done': Autonomy.Off},
 										remapping={'value': 'AgvID', 'result': 'agv_id'})
+
+			# x:1138 y:100
+			OperatableStateMachine.add('DeliverShipment',
+										self.use_behavior(notify_shipment_readySM, 'DeliverShipment'),
+										transitions={'finished': 'finished', 'failed': 'fail'},
+										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit})
 
 
 		return _state_machine

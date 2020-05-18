@@ -11,7 +11,6 @@ from flexbe_core import Behavior, Autonomy, OperatableStateMachine, ConcurrencyC
 from ariac_flexbe_states.message_state import MessageState
 from ariac_flexbe_states.get_object_pose import GetObjectPoseState
 from flexbe_states.wait_state import WaitState
-from ariac_flexbe_behaviors.notify_shipment_ready_sm import notify_shipment_readySM
 from ariac_flexbe_states.srdf_state_to_moveit_ariac_state import SrdfStateToMoveitAriac
 from ariac_flexbe_states.moveit_to_joints_dyn_ariac_state import MoveitToJointsDynAriacState
 from ariac_flexbe_states.compute_grasp_ariac_state import ComputeGraspAriacState
@@ -40,7 +39,6 @@ class transport_part_form_sharebin_to_agv2_stateSM(Behavior):
 		# parameters of this behavior
 
 		# references to used behaviors
-		self.add_behavior(notify_shipment_readySM, 'DeliverShipment')
 
 		# Additional initialization code can be added inside the following tags
 		# [MANUAL_INIT]
@@ -127,12 +125,6 @@ class transport_part_form_sharebin_to_agv2_stateSM(Behavior):
 										transitions={'done': 'MoveR2PreDrop'},
 										autonomy={'done': Autonomy.Off})
 
-			# x:16 y:320
-			OperatableStateMachine.add('DeliverShipment',
-										self.use_behavior(notify_shipment_readySM, 'DeliverShipment'),
-										transitions={'finished': 'finished', 'failed': 'MoveR2PreDrop_2'},
-										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit})
-
 			# x:925 y:91
 			OperatableStateMachine.add('MoveR2PreGrasp2',
 										SrdfStateToMoveitAriac(),
@@ -164,7 +156,7 @@ class transport_part_form_sharebin_to_agv2_stateSM(Behavior):
 			# x:13 y:449
 			OperatableStateMachine.add('MoveR2PreDrop_2',
 										SrdfStateToMoveitAriac(),
-										transitions={'reached': 'DeliverShipment', 'planning_failed': 'DeliverShipment', 'control_failed': 'DeliverShipment', 'param_error': 'DeliverShipment'},
+										transitions={'reached': 'finished', 'planning_failed': 'finished', 'control_failed': 'finished', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_tray2PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 

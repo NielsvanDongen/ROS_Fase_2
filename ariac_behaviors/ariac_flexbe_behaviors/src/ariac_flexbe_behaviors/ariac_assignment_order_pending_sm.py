@@ -311,7 +311,7 @@ class ariac_assignment_order_pendingSM(Behavior):
 			# x:147 y:500
 			OperatableStateMachine.add('AGV keuze',
 										EqualState(),
-										transitions={'true': 'AGV2', 'false': 'AGV1'},
+										transitions={'true': 'AGV1', 'false': 'AGV2'},
 										autonomy={'true': Autonomy.Off, 'false': Autonomy.Off},
 										remapping={'value_a': 'agv_id', 'value_b': 'agv2'})
 

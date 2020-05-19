@@ -155,7 +155,7 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_tray2PreDrop', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
-			# x:897 y:361
+			# x:915 y:420
 			OperatableStateMachine.add('GripperEnable',
 										VacuumGripperControlState(enable=True),
 										transitions={'continue': 'MoveR1PreGrasp2_2', 'failed': 'ComputePick', 'invalid_arm_id': 'failed'},
@@ -179,11 +179,11 @@ class transport_gasket_form_bin_to_agv_state_1SM(Behavior):
 			# x:921 y:262
 			OperatableStateMachine.add('ComputePick',
 										ComputeGraspAriacState(joint_names=['linear_arm_actuator_joint', 'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']),
-										transitions={'continue': 'GripperEnable', 'failed': 'GripperEnable'},
+										transitions={'continue': 'MoveR1ToPick', 'failed': 'MoveR1ToPick'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'tool_link': 'tool_link', 'pose': 'part_pose', 'offset': 'part_offset_pick', 'rotation': 'part_rotation', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
-			# x:910 y:423
+			# x:1068 y:342
 			OperatableStateMachine.add('MoveR1ToPick',
 										MoveitToJointsDynAriacState(),
 										transitions={'reached': 'GripperEnable', 'planning_failed': 'WaitRetry4', 'control_failed': 'WaitRetry4'},

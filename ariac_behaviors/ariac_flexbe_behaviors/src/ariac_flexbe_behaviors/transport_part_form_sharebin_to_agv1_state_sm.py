@@ -118,13 +118,13 @@ class transport_part_form_sharebin_to_agv1_stateSM(Behavior):
 
 			# x:1241 y:210
 			OperatableStateMachine.add('WaitRetry4',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR2PreGrasp2'},
 										autonomy={'done': Autonomy.Off})
 
 			# x:681 y:654
 			OperatableStateMachine.add('WaitRetry6',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR2PreDrop'},
 										autonomy={'done': Autonomy.Off})
 
@@ -159,26 +159,14 @@ class transport_part_form_sharebin_to_agv1_stateSM(Behavior):
 			# x:913 y:417
 			OperatableStateMachine.add('GripperEnable',
 										VacuumGripperControlState(enable=True),
-										transitions={'continue': 'MoveR2PreGrasp2_2', 'failed': 'WaitRetry5', 'invalid_arm_id': 'failed'},
+										transitions={'continue': 'MoveR2PreGrasp2_2', 'failed': 'ComputePick', 'invalid_arm_id': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'invalid_arm_id': Autonomy.Off},
 										remapping={'arm_id': 'arm_id'})
-
-			# x:1142 y:415
-			OperatableStateMachine.add('WaitRetry5',
-										WaitState(wait_time=5),
-										transitions={'done': 'GripperEnable'},
-										autonomy={'done': Autonomy.Off})
-
-			# x:236 y:627
-			OperatableStateMachine.add('WaitRetry8',
-										WaitState(wait_time=5),
-										transitions={'done': 'GripperDisable'},
-										autonomy={'done': Autonomy.Off})
 
 			# x:226 y:507
 			OperatableStateMachine.add('GripperDisable',
 										VacuumGripperControlState(enable=False),
-										transitions={'continue': 'MoveR2PreDrop_2', 'failed': 'WaitRetry8', 'invalid_arm_id': 'failed'},
+										transitions={'continue': 'MoveR2PreDrop_2', 'failed': 'MoveR2ToDrop', 'invalid_arm_id': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off, 'invalid_arm_id': Autonomy.Off},
 										remapping={'arm_id': 'arm_id'})
 
@@ -205,7 +193,7 @@ class transport_part_form_sharebin_to_agv1_stateSM(Behavior):
 
 			# x:1154 y:509
 			OperatableStateMachine.add('WaitRetry4_2',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR2PreGrasp2_2'},
 										autonomy={'done': Autonomy.Off})
 

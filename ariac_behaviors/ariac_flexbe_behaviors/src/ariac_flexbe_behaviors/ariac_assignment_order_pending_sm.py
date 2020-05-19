@@ -298,13 +298,13 @@ class ariac_assignment_order_pendingSM(Behavior):
 
 			# x:20 y:537
 			OperatableStateMachine.add('WaitRetry10',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR1Home'},
 										autonomy={'done': Autonomy.Off})
 
 			# x:45 y:115
 			OperatableStateMachine.add('WaitRetry10_2',
-										WaitState(wait_time=5),
+										WaitState(wait_time=2),
 										transitions={'done': 'MoveR2Home'},
 										autonomy={'done': Autonomy.Off})
 

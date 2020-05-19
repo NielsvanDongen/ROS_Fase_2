@@ -250,7 +250,7 @@ class ariac_assignment_order_pendingSM(Behavior):
 			# x:901 y:190
 			OperatableStateMachine.add('transport_part_form_bin5_to_bin4',
 										self.use_behavior(transport_part_form_bin5_to_bin4SM, 'transport_part_form_bin5_to_bin4'),
-										transitions={'finished': 'transport_part_form_sharebin_to_agv2_state', 'failed': 'transport_part_form_bin6_to_bin4'},
+										transitions={'finished': 'transport_part_form_sharebin_to_agv2_state', 'failed': 'failed'},
 										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit},
 										remapping={'part_type': 'part_type', 'agv_id': 'agv_id', 'pose_on_agv': 'pose_on_agv'})
 

@@ -212,7 +212,7 @@ class transport_part_form_sharebin_to_agv1_stateSM(Behavior):
 			# x:926 y:496
 			OperatableStateMachine.add('MoveR2PreGrasp2_2',
 										SrdfStateToMoveitAriac(),
-										transitions={'reached': 'MoveR2PreDrop', 'planning_failed': 'WaitRetry4_2', 'control_failed': 'WaitRetry4_2', 'param_error': 'failed'},
+										transitions={'reached': 'MoveR2PreDrop', 'planning_failed': 'WaitRetry4_2', 'control_failed': 'MoveR2PreDrop', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name_bin4PreGrasp', 'move_group': 'move_group', 'move_group_prefix': 'move_group_prefix', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 

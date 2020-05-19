@@ -13,7 +13,9 @@ from ariac_support_flexbe_states.add_numeric_state import AddNumericState
 from ariac_support_flexbe_states.equal_state import EqualState
 from ariac_flexbe_behaviors.get_products_sm import get_productsSM
 from ariac_support_flexbe_states.replace_state import ReplaceState
-from ariac_flexbe_behaviors.notify_shipment_ready_sm import notify_shipment_readySM
+from ariac_flexbe_states.get_agv_status_state import GetAgvStatusState
+from flexbe_states.wait_state import WaitState
+from ariac_flexbe_states.notify_shipment_ready_state import NotifyShipmentReadyState
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
 
@@ -40,7 +42,6 @@ This example is a part of the order example.
 
 		# references to used behaviors
 		self.add_behavior(get_productsSM, 'get_products')
-		self.add_behavior(notify_shipment_readySM, 'DeliverShipment')
 
 		# Additional initialization code can be added inside the following tags
 		# [MANUAL_INIT]
@@ -52,7 +53,7 @@ This example is a part of the order example.
 
 
 	def create(self):
-		# x:1381 y:133, x:931 y:389
+		# x:1397 y:285, x:893 y:335
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'fail'], input_keys=['Shipments', 'NumberOfShipments'])
 		_state_machine.userdata.Shipments = []
 		_state_machine.userdata.NumberOfShipments = 0
@@ -64,6 +65,7 @@ This example is a part of the order example.
 		_state_machine.userdata.ShipmentIterator = 0
 		_state_machine.userdata.OneValue = 1
 		_state_machine.userdata.agv_id = ''
+		_state_machine.userdata.agv_ready_state = ''
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]
@@ -79,24 +81,24 @@ This example is a part of the order example.
 										autonomy={'continue': Autonomy.Off, 'invalid_index': Autonomy.Off},
 										remapping={'shipments': 'Shipments', 'index': 'ShipmentIterator', 'shipment_type': 'ShipmentType', 'agv_id': 'AgvID', 'products': 'Products', 'number_of_products': 'NumberOfProducts'})
 
-			# x:914 y:32
+			# x:1420 y:168
 			OperatableStateMachine.add('IncrementShipmentsIterator',
 										AddNumericState(),
 										transitions={'done': 'CompareShepmentsIterator'},
 										autonomy={'done': Autonomy.Off},
 										remapping={'value_a': 'ShipmentIterator', 'value_b': 'OneValue', 'result': 'ShipmentIterator'})
 
-			# x:910 y:138
+			# x:1182 y:237
 			OperatableStateMachine.add('CompareShepmentsIterator',
 										EqualState(),
-										transitions={'true': 'DeliverShipment', 'false': 'GetProducts'},
+										transitions={'true': 'finished', 'false': 'GetProducts'},
 										autonomy={'true': Autonomy.Off, 'false': Autonomy.Off},
 										remapping={'value_a': 'ShipmentIterator', 'value_b': 'NumberOfShipments'})
 
 			# x:730 y:26
 			OperatableStateMachine.add('get_products',
 										self.use_behavior(get_productsSM, 'get_products'),
-										transitions={'finished': 'IncrementShipmentsIterator', 'fail': 'fail'},
+										transitions={'finished': 'NotifyShipmentReady', 'fail': 'fail'},
 										autonomy={'finished': Autonomy.Inherit, 'fail': Autonomy.Inherit},
 										remapping={'Products': 'Products', 'NumberOfProducts': 'NumberOfProducts', 'agv_id': 'agv_id'})
 
@@ -107,11 +109,32 @@ This example is a part of the order example.
 										autonomy={'done': Autonomy.Off},
 										remapping={'value': 'AgvID', 'result': 'agv_id'})
 
-			# x:1138 y:100
-			OperatableStateMachine.add('DeliverShipment',
-										self.use_behavior(notify_shipment_readySM, 'DeliverShipment'),
-										transitions={'finished': 'finished', 'failed': 'fail'},
-										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit})
+			# x:1354 y:16
+			OperatableStateMachine.add('GetAgvState',
+										GetAgvStatusState(),
+										transitions={'continue': 'AgvReady', 'fail': 'fail'},
+										autonomy={'continue': Autonomy.Off, 'fail': Autonomy.Off},
+										remapping={'agv_id': 'agv_id', 'agv_state': 'agv_state'})
+
+			# x:1228 y:125
+			OperatableStateMachine.add('AgvReady',
+										EqualState(),
+										transitions={'true': 'IncrementShipmentsIterator', 'false': 'Wait'},
+										autonomy={'true': Autonomy.Off, 'false': Autonomy.Off},
+										remapping={'value_a': 'agv_state', 'value_b': 'agv_ready_state'})
+
+			# x:1177 y:23
+			OperatableStateMachine.add('Wait',
+										WaitState(wait_time=1),
+										transitions={'done': 'GetAgvState'},
+										autonomy={'done': Autonomy.Off})
+
+			# x:959 y:20
+			OperatableStateMachine.add('NotifyShipmentReady',
+										NotifyShipmentReadyState(),
+										transitions={'continue': 'Wait', 'fail': 'fail'},
+										autonomy={'continue': Autonomy.Off, 'fail': Autonomy.Off},
+										remapping={'agv_id': 'agv_id', 'shipment_type': 'ShipmentType', 'success': 'success', 'message': 'message'})
 
 
 		return _state_machine

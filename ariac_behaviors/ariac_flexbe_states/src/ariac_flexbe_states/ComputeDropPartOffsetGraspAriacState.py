@@ -87,7 +87,7 @@ class ComputeDropPartOffsetGraspAriacState(EventState):
 
 	def __init__(self, joint_names):
 		# Declare outcomes, input_keys, and output_keys by calling the super constructor with the corresponding arguments.
-		super(ComputeDropPartOffsetGraspAriacState, self).__init__(outcomes = ['continue', 'failed'], input_keys = ['move_group', 'move_group_prefix', 'tool_link','part_pose','pose','offset', 'rotation'], output_keys = ['joint_values','joint_names'])
+		super(ComputeDropPartOffsetGraspAriacState, self).__init__(outcomes = ['continue', 'failed'], input_keys = ['move_group', 'move_group_prefix', 'tool_link', 'part_pose', 'pose','offset', 'rotation'], output_keys = ['joint_values','joint_names'])
 
 		self._joint_names = joint_names
 
@@ -155,19 +155,19 @@ class ComputeDropPartOffsetGraspAriacState(EventState):
 
 		# the grasp pose is defined as being located on top of the item
 
-		target_pose.pose.position.z += self._offset + 0.0
+		target_pose.pose.position.z += self._offset + 0.03
 		target_pose.pose.position.x += userdata.part_pose.position.x
 		target_pose.pose.position.y += userdata.part_pose.position.y
 
 		# rotate the object pose 180 degrees around - now works with -90???
 
 		#q_orig = [target_pose.pose.orientation.x, target_pose.pose.orientation.y, target_pose.pose.orientation.z, target_pose.pose.orientation.w]
-		#q_orig = [0, 0, 0, 1]
+		q_orig = [0, 0, 0, 1]
 		#q_rot = quaternion_from_euler(self._rotation, 0, 0)
-		#q_rot = quaternion_from_euler(self._rotation, math.pi/2.0, 0) # math.pi/2.0 added by gerard!!
+		q_rot = quaternion_from_euler(self._rotation, math.pi/2.0, 0) # math.pi/2.0 added by gerard!!
 		#q_rot = quaternion_from_euler(math.pi/-2.0, 0, 0)
-		#res_q = quaternion_multiply(q_rot, q_orig)
-		#target_pose.pose.orientation = geometry_msgs.msg.Quaternion(*res_q)
+		res_q = quaternion_multiply(q_rot, q_orig)
+		target_pose.pose.orientation = geometry_msgs.msg.Quaternion(*res_q)
 
 		# use ik service to compute joint_values
 		self._srv_req = GetPositionIKRequest()

@@ -80,7 +80,7 @@ This example is a part of the order example.
 										GetPartFromProductsState(),
 										transitions={'continue': 'ProductTypeMessage', 'invalid_index': 'fail'},
 										autonomy={'continue': Autonomy.Off, 'invalid_index': Autonomy.Off},
-										remapping={'products': 'Products', 'index': 'ProductIterator', 'type': 'ProductType', 'pose': 'ProductPose'})
+										remapping={'products': 'Products', 'index': 'ProductIterator', 'type': 'ProductType', 'pose': 'pose_on_agv'})
 
 			# x:817 y:258
 			OperatableStateMachine.add('IncrementProductIterator',
@@ -108,7 +108,7 @@ This example is a part of the order example.
 										MessageState(),
 										transitions={'continue': 'GetMaterialsLocation'},
 										autonomy={'continue': Autonomy.Off},
-										remapping={'message': 'ProductPose'})
+										remapping={'message': 'pose_on_agv'})
 
 			# x:877 y:120
 			OperatableStateMachine.add('GetMaterialsLocation',
@@ -145,19 +145,12 @@ This example is a part of the order example.
 										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit},
 										remapping={'agv_id': 'agv_id', 'part_type': 'part_type', 'pose_on_agv': 'pose_on_agv'})
 
-			# x:1577 y:245
+			# x:1376 y:245
 			OperatableStateMachine.add('part type',
-										ReplaceState(),
-										transitions={'done': 'product pose'},
-										autonomy={'done': Autonomy.Off},
-										remapping={'value': 'ProductType', 'result': 'part_type'})
-
-			# x:1348 y:244
-			OperatableStateMachine.add('product pose',
 										ReplaceState(),
 										transitions={'done': 'ariac_assignment_order_pending'},
 										autonomy={'done': Autonomy.Off},
-										remapping={'value': 'ProductPose', 'result': 'pose_on_agv'})
+										remapping={'value': 'ProductType', 'result': 'part_type'})
 
 
 		return _state_machine

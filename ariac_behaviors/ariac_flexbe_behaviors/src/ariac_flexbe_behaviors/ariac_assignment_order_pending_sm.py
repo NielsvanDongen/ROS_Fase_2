@@ -266,28 +266,28 @@ class ariac_assignment_order_pendingSM(Behavior):
 										ReplaceState(),
 										transitions={'done': 'transport_part_form_bin5_to_bin4'},
 										autonomy={'done': Autonomy.Off},
-										remapping={'value': 'offset_part', 'result': 'offset_piston'})
+										remapping={'value': 'offset_piston', 'result': 'offset_part'})
 
 			# x:610 y:301
 			OperatableStateMachine.add('offset gear',
 										ReplaceState(),
 										transitions={'done': 'transport_part_form_bin6_to_bin4'},
 										autonomy={'done': Autonomy.Off},
-										remapping={'value': 'offset_part', 'result': 'offset_gear'})
+										remapping={'value': 'offset_gear', 'result': 'offset_part'})
 
 			# x:609 y:420
 			OperatableStateMachine.add('offset gasket',
 										ReplaceState(),
 										transitions={'done': 'transport_part_form_bin1_to_bin4'},
 										autonomy={'done': Autonomy.Off},
-										remapping={'value': 'offset_part', 'result': 'offset_gasket'})
+										remapping={'value': 'offset_gasket', 'result': 'offset_part'})
 
 			# x:609 y:528
 			OperatableStateMachine.add('offset pulley',
 										ReplaceState(),
 										transitions={'done': 'transport_part_form_bin2_to_bin4'},
 										autonomy={'done': Autonomy.Off},
-										remapping={'value': 'offset_part', 'result': 'offset_pulley'})
+										remapping={'value': 'offset_pulley', 'result': 'offset_part'})
 
 			# x:10 y:384
 			OperatableStateMachine.add('MoveR1Home',

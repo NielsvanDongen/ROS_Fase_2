@@ -79,7 +79,7 @@ class transport_part_form_sharebin_to_agv1_stateSM(Behavior):
 		_state_machine.userdata.arm_id = 'arm2'
 		_state_machine.userdata.part_offset_place = 0.111
 		_state_machine.userdata.offset = ''
-		_state_machine.userdata.rotation = []
+		_state_machine.userdata.rotation = 0
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]

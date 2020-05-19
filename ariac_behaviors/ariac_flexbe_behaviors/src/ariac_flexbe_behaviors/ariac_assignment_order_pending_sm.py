@@ -15,12 +15,12 @@ from ariac_flexbe_behaviors.transport_gasket_form_bin_to_agv_state_1_sm import t
 from ariac_flexbe_behaviors.transport_part_form_sharebin_to_agv1_state_sm import transport_part_form_sharebin_to_agv1_stateSM
 from ariac_flexbe_behaviors.transport_part_form_sharebin_to_agv2_state_sm import transport_part_form_sharebin_to_agv2_stateSM
 from ariac_support_flexbe_states.equal_state import EqualState
-from ariac_support_flexbe_states.replace_state import ReplaceState
 from ariac_flexbe_behaviors.transport_pulley_form_bin_to_agv_state_1_sm import transport_pulley_form_bin_to_agv_state_1SM
 from ariac_flexbe_behaviors.transport_part_form_bin1_to_bin4_sm import transport_part_form_bin1_to_bin4SM
 from ariac_flexbe_behaviors.transport_part_form_bin2_to_bin4_sm import transport_part_form_bin2_to_bin4SM
 from ariac_flexbe_behaviors.transport_part_form_bin5_to_bin4_sm import transport_part_form_bin5_to_bin4SM
 from ariac_flexbe_behaviors.transport_part_form_bin6_to_bin4_sm import transport_part_form_bin6_to_bin4SM
+from ariac_support_flexbe_states.replace_state import ReplaceState
 from flexbe_states.wait_state import WaitState
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
@@ -163,13 +163,6 @@ class ariac_assignment_order_pendingSM(Behavior):
 										autonomy={'true': Autonomy.Off, 'false': Autonomy.Off},
 										remapping={'value_a': 'part_type', 'value_b': 'gasket_part'})
 
-			# x:118 y:30
-			OperatableStateMachine.add('AGV2',
-										ReplaceState(),
-										transitions={'done': 'gasket'},
-										autonomy={'done': Autonomy.Off},
-										remapping={'value': 'agv_id', 'result': 'agv2'})
-
 			# x:322 y:111
 			OperatableStateMachine.add('pulley',
 										EqualState(),
@@ -190,13 +183,6 @@ class ariac_assignment_order_pendingSM(Behavior):
 										transitions={'true': 'offset gear', 'false': 'failed'},
 										autonomy={'true': Autonomy.Off, 'false': Autonomy.Off},
 										remapping={'value_a': 'part_type', 'value_b': 'gear_part'})
-
-			# x:114 y:721
-			OperatableStateMachine.add('AGV1',
-										ReplaceState(),
-										transitions={'done': 'gasket_2'},
-										autonomy={'done': Autonomy.Off},
-										remapping={'value': 'agv_id', 'result': 'agv1'})
 
 			# x:333 y:538
 			OperatableStateMachine.add('pulley_2',
@@ -308,10 +294,10 @@ class ariac_assignment_order_pendingSM(Behavior):
 										transitions={'done': 'MoveR2Home'},
 										autonomy={'done': Autonomy.Off})
 
-			# x:147 y:500
+			# x:165 y:346
 			OperatableStateMachine.add('AGV keuze',
 										EqualState(),
-										transitions={'true': 'AGV1', 'false': 'AGV2'},
+										transitions={'true': 'gasket_2', 'false': 'gasket'},
 										autonomy={'true': Autonomy.Off, 'false': Autonomy.Off},
 										remapping={'value_a': 'agv_id', 'value_b': 'agv2'})
 

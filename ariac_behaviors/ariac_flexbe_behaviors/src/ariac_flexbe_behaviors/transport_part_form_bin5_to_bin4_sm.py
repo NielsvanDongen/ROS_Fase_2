@@ -178,7 +178,7 @@ class transport_part_form_bin5_to_bin4SM(Behavior):
 			# x:910 y:341
 			OperatableStateMachine.add('MoveR1ToPick',
 										MoveitToJointsDynAriacState(),
-										transitions={'reached': 'GripperEnable', 'planning_failed': 'WaitRetry4_2_2', 'control_failed': 'WaitRetry4_2_2'},
+										transitions={'reached': 'GripperEnable', 'planning_failed': 'WaitRetry4_2_2', 'control_failed': 'GripperEnable'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
 										remapping={'move_group_prefix': 'move_group_prefix', 'move_group': 'move_group', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 

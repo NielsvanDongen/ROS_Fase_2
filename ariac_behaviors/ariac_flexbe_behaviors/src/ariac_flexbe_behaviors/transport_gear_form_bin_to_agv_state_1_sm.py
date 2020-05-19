@@ -186,7 +186,7 @@ class transport_gear_form_bin_to_agv_state_1SM(Behavior):
 			# x:910 y:325
 			OperatableStateMachine.add('MoveR1ToPick',
 										MoveitToJointsDynAriacState(),
-										transitions={'reached': 'GripperEnable', 'planning_failed': 'WaitRetry4', 'control_failed': 'WaitRetry4'},
+										transitions={'reached': 'GripperEnable', 'planning_failed': 'WaitRetry4', 'control_failed': 'GripperEnable'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
 										remapping={'move_group_prefix': 'move_group_prefix', 'move_group': 'move_group', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 

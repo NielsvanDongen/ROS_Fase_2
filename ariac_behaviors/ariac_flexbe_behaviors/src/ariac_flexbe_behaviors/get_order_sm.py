@@ -20,11 +20,12 @@ from ariac_flexbe_behaviors.get_shipments_sm import get_shipmentsSM
 
 '''
 Created on Sun Apr 19 2020
-@author: Gerard Harkema
+@author: Bas Jochems, Niels van Dongen
 '''
 class get_orderSM(Behavior):
 	'''
-	Tests the starting and stopping of the assignment
+	Start van het assignment
+
 	'''
 
 

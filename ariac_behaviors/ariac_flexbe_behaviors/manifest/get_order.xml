@@ -4,10 +4,11 @@
 
 	<executable package_path="ariac_flexbe_behaviors.get_order_sm" class="get_orderSM" />
 	<tagstring>logistic</tagstring>
-	<author>Gerard Harkema</author>
+	<author>Bas Jochems, Niels van Dongen</author>
 	<date>Sun Apr 19 2020</date>
 	<description>
-		Tests the starting and stopping of the assignment
+		Start van het assignment
+
 	</description>
 
 
